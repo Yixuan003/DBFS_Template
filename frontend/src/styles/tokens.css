@@ -1,0 +1,42 @@
+:root {
+  /* Color */
+  --surface: oklch(0.978 0.003 155);
+  --raised: oklch(0.995 0.002 155);
+  --ink: oklch(0.24 0.012 250);
+  --ink-soft: oklch(0.48 0.012 250);
+  --brand: oklch(0.5 0.115 250);
+  --brand-strong: oklch(0.44 0.12 250);
+  --brand-wash: oklch(0.955 0.024 250);
+  --brand-ink: oklch(0.98 0.005 155);
+  --line: oklch(0.92 0.004 160);
+  --up: oklch(0.68 0.15 160);
+  --down: oklch(0.62 0.2 20);
+  --focus: oklch(0.57 0.1 250);
+
+  /* Type */
+  --font-display: "Space Grotesk", Inter, sans-serif;
+  --font-body: Inter, system-ui, sans-serif;
+  --font-figure: "IBM Plex Mono", monospace;
+
+  /* Radius */
+  --radius-control: 8px;
+  --radius-card: 12px;
+  --radius-panel: 18px;
+  --radius-pill: 999px;
+
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.4rem;
+  --space-lg: 2.5rem;
+
+  /* Shadow */
+  --shadow-resting: 0 1px 2px oklch(0.24 0.012 250 / 0.05);
+  --shadow-panel: 0 8px 24px -10px oklch(0.3 0.06 250 / 0.2);
+  --shadow-tooltip: 0 10px 24px rgb(0 0 0 / 14%);
+
+  /* Layout */
+  --rail-width: 240px;
+  --column-narrow: 640px;
+  --column-wide: 1120px;
+}

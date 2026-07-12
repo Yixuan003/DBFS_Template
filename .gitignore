@@ -1,0 +1,17 @@
+.env
+*.env
+!.env.example
+
+# node
+node_modules/
+dist/
+
+# python
+__pycache__/
+*.pyc
+venv/
+*.egg-info/
+
+# os junk
+.DS_Store
+Thumbs.db
