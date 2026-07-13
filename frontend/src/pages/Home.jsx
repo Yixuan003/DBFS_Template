@@ -1,54 +1,45 @@
-import { Link } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import PageShell from "../components/PageShell";
 import PageHeader from "../components/PageHeader";
-import { getUser } from "../utils/auth";
-
-const PRODUCTS = [
-  {
-    to: "/stocks",
-    title: "Stocks & Shares",
-    description: "U.S. equities — INTC, GOOG, and NVDA.",
-  },
-  {
-    to: "/foreign-exchange",
-    title: "Foreign Exchange",
-    description: "EUR/SGD, GBP/SGD, and USD/SGD.",
-  },
-  {
-    to: "/precious-metals",
-    title: "Precious Metals",
-    description: "Platinum, Gold, and Silver.",
-  },
-  {
-    to: "/crypto",
-    title: "Cryptocurrency",
-    description: "BTC, ETH, and XRP.",
-  },
-];
+import { getUser, clearUser } from "../utils/auth";
 
 export default function Home() {
   const user = getUser();
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    clearUser();
+    navigate("/login");
+  }
 
   return (
     <PageShell>
-      <PageHeader
-        eyebrow="Welcome back"
-        title={user?.name ? `Hi, ${user.name}` : "What would you like to buy today?"}
-        description="Straits Digital Bank lets you buy stocks, foreign currency, precious metals, and crypto from one account, funded through PayPal."
-      />
-
-      <div className="card-grid">
-        {PRODUCTS.map((p) => (
-          <Link key={p.to} to={p.to} className="card" style={{ textDecoration: "none" }}>
-            <div className="text-title" style={{ marginBottom: "0.4rem" }}>
-              {p.title}
-            </div>
-            <div className="text-soft" style={{ fontSize: "0.9rem" }}>
-              {p.description}
-            </div>
-          </Link>
-        ))}
+      <div className="home-header">
+        <PageHeader
+          title={user?.name ? `Welcome, ${user.name}` : "Welcome"}
+        />
+        <button className="btn btn-danger" onClick={handleLogout}>
+          Log Out
+        </button>
       </div>
+
+      <nav className="category-nav">
+        <NavLink to="/stocks" className="category-link">
+          Stocks & Shares
+        </NavLink>
+
+        <NavLink to="/foreign-exchange" className="category-link">
+          Foreign Exchange
+        </NavLink>
+
+        <NavLink to="/precious-metals" className="category-link">
+          Precious Metals
+        </NavLink>
+
+        <NavLink to="/crypto" className="category-link">
+          Cryptocurrency
+        </NavLink>
+      </nav>
     </PageShell>
   );
 }
