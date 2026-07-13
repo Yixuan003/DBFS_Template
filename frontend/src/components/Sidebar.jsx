@@ -82,10 +82,10 @@ export default function Sidebar() {
       </nav>
 
       <div className="sidebar-footer">
-        Straits-FX template
-        <br />
-        v0.1
-      </div>
+      DBFS Assignment 2
+      <br />
+      v0.1
+      </div>  
     </aside>
   );
 }

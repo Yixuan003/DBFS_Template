@@ -1,6 +1,7 @@
 import os
+import profile
 import requests
-from flask import Blueprint, jsonify, request, redirect
+from flask import Blueprint, request, redirect
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -58,22 +59,7 @@ def paypal_callback():
 
     profile = profile_res.json()
     return redirect(
-        f"{FRONTEND_URL}/home"
+        f"{FRONTEND_URL}/auth/success"
         f"?paypal_name={profile.get('name', '')}"
         f"&paypal_email={profile.get('email', '')}"
     )
-
-
-@auth_bp.post("/login")
-def login():
-    data = request.get_json(silent=True) or {}
-    email = data.get("email", "")
-    return jsonify(token="mock-token-123", user={"email": email, "name": "New Customer"})
-
-
-@auth_bp.post("/signup")
-def signup():
-    data = request.get_json(silent=True) or {}
-    name = data.get("name", "New Customer")
-    email = data.get("email", "")
-    return jsonify(token="mock-token-123", user={"name": name, "email": email})

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import PageShell from "../components/PageShell";
 import PageHeader from "../components/PageHeader";
+import { getUser } from "../utils/auth";
 
 const PRODUCTS = [
   {
@@ -26,11 +27,13 @@ const PRODUCTS = [
 ];
 
 export default function Home() {
+  const user = getUser();
+
   return (
     <PageShell>
       <PageHeader
         eyebrow="Welcome back"
-        title="What would you like to buy today?"
+        title={user?.name ? `Hi, ${user.name}` : "What would you like to buy today?"}
         description="Straits Digital Bank lets you buy stocks, foreign currency, precious metals, and crypto from one account, funded through PayPal."
       />
 

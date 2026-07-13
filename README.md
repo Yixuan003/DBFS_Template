@@ -23,8 +23,7 @@ straits-fx-template/
 ├── frontend/                 React app (port 5173)
 │   ├── src/
 │   │   ├── components/       Shared layout: Sidebar, TopBar, PageShell
-│   │   ├── pages/            Home, Login, Signup, Stocks, ForeignExchange,
-│   │   │                     PreciousMetals, Crypto
+│   │   ├── pages/            Home, Login, Stocks, ForeignExchange, PreciousMetals, Crypto                   
 │   │   ├── styles/           tokens.css (design system variables) + global.css
 │   │   ├── App.jsx           Routes
 │   │   └── main.jsx

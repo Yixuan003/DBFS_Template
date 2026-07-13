@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import { clearUser } from "../utils/auth";
 
 export default function PageShell({ width = "wide", children }) {
   const navigate = useNavigate();
 
   function handleLogout() {
+    clearUser();
     navigate("/login");
   }
 
