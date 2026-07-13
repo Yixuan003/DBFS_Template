@@ -1,80 +1,114 @@
-# Straits Digital Bank — Shared UI Template
+# DBFS Assignment 2 — Straits Digital Bank
 
-Group project starter for DBFS Assignment 2. Everyone builds their own investment
-page (Stocks, FX, Precious Metals, Crypto) on top of the **same look and feel**,
-so the four individual web apps still feel like one product when demoed back to back.
+Shared starter for the team's Assignment 2 web apps. Each teammate builds one
+investment page (Stocks, FX, Precious Metals, Crypto) on top of the same
+layout, routing, and login flow.
 
-This template is deliberately API-free. It has the pages, routing, layout, and
-styling wired up with placeholder/mock data so each teammate can drop their own
-Open Banking API calls into their own page without touching anyone else's.
+## Getting Started for Frontend
 
-## Stack
+Clone the repo and create your branch:
+git clone https://github.com/Yixuan003/DBFS_Template.git
+cd DBFS_Template
+git checkout -b feature/your-page
 
-- **Frontend:** React (Vite) + React Router, plain CSS using design tokens (no
-  Tailwind/UI kit, matches the Straits-FX design system exactly)
-- **Backend:** Flask, blueprint-per-feature so each teammate owns one route file
-- **Docker:** one Dockerfile per app + a docker-compose.yml to run both together
+Set up your env file:
+cd frontend
+copy .env.example .env
 
-## Project layout
+Fill in `VITE_PAYPAL_CLIENT_ID` in `.env` (ask the team for the shared sandbox
+Client ID).
 
-```
-straits-fx-template/
-├── docker-compose.yml
-├── frontend/                 React app (port 5173)
-│   ├── src/
-│   │   ├── components/       Shared layout: Sidebar, TopBar, PageShell
-│   │   ├── pages/            Home, Login, Stocks, ForeignExchange, PreciousMetals, Crypto                   
-│   │   ├── styles/           tokens.css (design system variables) + global.css
-│   │   ├── App.jsx           Routes
-│   │   └── main.jsx
-│   └── Dockerfile
-└── backend/                  Flask app (port 5000)
-    ├── app/
-    │   ├── __init__.py       App factory, registers blueprints
-    │   └── routes/           auth.py, stocks.py, fx.py, metals.py, crypto.py
-    │                         each returns MOCK data for now
-    ├── requirements.txt
-    ├── run.py
-    └── Dockerfile
-```
+Install dependencies:
+npm install
 
-## Running it
+Start the frontend:
+npm run dev
 
-```bash
+Open the local URL shown in the terminal:
+http://localhost:5173
+
+### Useful Commands
+npm run dev
+npm run build
+
+### Main Files
+
+- `src/pages` — Login, AuthSuccess, Home, Stocks, ForeignExchange, PreciousMetals, Crypto
+- `src/components` — shared layout: Sidebar, PageShell, PageHeader
+- `src/styles` — tokens.css (design system variables) + global.css
+- `src/utils/auth.js` — saves/reads the logged-in user, used by route protection
+- `src/App.jsx` — routes
+
+### Project Notes
+
+- Login is real, not mocked — "Log in with PayPal" redirects through the
+  Flask backend's OAuth2 flow and pulls back the actual PayPal profile.
+- There is no separate signup page. PayPal handles both new and returning
+  users through the same login button.
+- All pages except `/login` and `/auth/success` are protected — visiting
+  them directly without logging in redirects back to `/login`.
+- Stocks, ForeignExchange, PreciousMetals, and Crypto pages are intentionally
+  blank (title only). Build your price table and buy form in your own page
+  file — don't touch anyone else's.
+- Don't edit `src/components/` or `src/styles/` without checking with the
+  team first — every page depends on that shared shell staying consistent.
+
+## Getting Started for Backend
+cd backend
+python -m venv venv
+venv\Scripts\activate
+
+Set up your env file:
+copy .env.example .env
+
+Fill in `PAYPAL_CLIENT_ID` and `PAYPAL_CLIENT_SECRET` (ask the team for the
+shared sandbox credentials).
+
+Install dependencies:
+pip install -r requirements.txt
+
+Start the backend:
+python run.py
+
+The API runs at:
+http://127.0.0.1:5000
+
+## Test Endpoint
+
+Open this in your browser:
+http://127.0.0.1:5000/api/health
+
+Expected response:
+{
+"service": "dbfs-backend",
+"status": "ok"
+}
+
+## Main Files (Backend)
+
+- `app/__init__.py` — app factory, loads `.env`, registers blueprints
+- `app/routes/auth.py` — PayPal login/callback (done)
+- `app/routes/<yours>.py` — create this for your investment type; see
+  `auth.py` for the pattern
+
+## Project Notes (Backend)
+
+- Never commit real API keys. `.env` is gitignored — use `.env.example` as
+  the template for what values are needed.
+- PayPal's Return URL must exactly match `PAYPAL_REDIRECT_URI` in `.env`,
+  including `127.0.0.1` vs `localhost` — PayPal treats these as different
+  hosts.
+- Log in with a **Personal** sandbox test account, not Business — PayPal's
+  profile endpoint rejects Business account tokens.
+- When adding your own route file, keep response shapes as
+  `{"prices": [...]}` for GET and `{"status": ..., "message": ...}` for
+  POST — the frontend already expects this shape.
+
+## Running with Docker (optional)
 docker compose up --build
-```
 
 - Frontend: http://localhost:5173
-- Backend:  http://localhost:5000/api/health
+- Backend health check: http://localhost:5000/api/health
 
-Or run each side natively while developing:
-
-```bash
-# frontend
-cd frontend && npm install && npm run dev
-
-# backend
-cd backend && python -m venv venv && source venv/bin/activate
-pip install -r requirements.txt && python run.py
-```
-
-## How the team splits the work
-
-1. **Don't touch `src/components/` or `src/styles/tokens.css`** without telling
-   the team — that's the shared shell everyone's page lives inside.
-2. Each teammate owns exactly one file under `frontend/src/pages/` (their
-   investment type) and one file under `backend/app/routes/` (their API calls).
-3. When you're ready to add a real Open Banking API, replace the mock data in
-   your route file — the page component already calls `fetch('/api/<yours>')`
-   and renders whatever comes back, so the UI won't need to change.
-4. Keep using the existing button/card/input classes (see `styles/global.css`)
-   so every page still reads as one bank, not four different projects glued
-   together.
-
-## Design system
-
-Colors, type, spacing, and component rules come straight from the Straits-FX
-design system (tinted-paper light surface, single navy accent, tabular-mono
-figures, hairline borders, near-zero shadow). All tokens live in
-`frontend/src/styles/tokens.css` as CSS custom properties — reference them
-instead of hardcoding hex values.
+Requires `backend/.env` and `frontend/.env` to already exist locally — Docker
+mounts your project folder, so it uses the same `.env` files as native setup.
