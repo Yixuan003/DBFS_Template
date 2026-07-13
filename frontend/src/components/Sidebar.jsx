@@ -9,8 +9,6 @@ const NAV_ITEMS = [
 ];
 
 function Icon({ name }) {
-  // Minimal inline line-icons so the template has no external icon
-  // dependency. Swap for lucide-react or similar if the team prefers.
   const common = {
     className: "sidebar-icon",
     viewBox: "0 0 24 24",

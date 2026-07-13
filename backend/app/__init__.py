@@ -9,10 +9,8 @@ from flask_cors import CORS
 
 def create_app():
     app = Flask(__name__)
-    CORS(app)  # open for local dev; tighten this before anyone deploys it
-
-    # Each teammate owns one blueprint below. Add your Open Banking API calls
-    # inside your own routes/<file>.py — nothing else needs to change.
+    CORS(app)
+    
     from app.routes.auth import auth_bp
     from app.routes.stocks import stocks_bp
     from app.routes.fx import fx_bp

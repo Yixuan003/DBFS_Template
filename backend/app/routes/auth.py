@@ -1,6 +1,3 @@
-"""
-Auth routes — Log in with PayPal (OpenID Connect).
-"""
 import os
 import requests
 from flask import Blueprint, jsonify, request, redirect
@@ -60,8 +57,6 @@ def paypal_callback():
         return redirect(f"{FRONTEND_URL}/login?paypal_error=profile_fetch_failed")
 
     profile = profile_res.json()
-    # TODO: create/look up a local user record here and issue your own
-    # session/token instead of passing raw profile data in the URL.
     return redirect(
         f"{FRONTEND_URL}/home"
         f"?paypal_name={profile.get('name', '')}"

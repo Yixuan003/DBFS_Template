@@ -1,14 +1,4 @@
 import { useEffect, useState } from "react";
-
-/**
- * Generic "price list + buy form" panel shared by all four investment pages.
- * Each page passes its own API paths and column config — the page file
- * itself stays tiny, and swapping mock data for a real Open Banking API
- * only means editing the matching backend/app/routes/<yours>.py file.
- *
- * columns: [{ key, label, format? }]  — format receives the raw row value
- * buyFields: [{ name, label, placeholder }]
- */
 export default function InvestmentPanel({
   pricesEndpoint,
   buyEndpoint,
